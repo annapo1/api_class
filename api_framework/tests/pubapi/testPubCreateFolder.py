@@ -13,7 +13,6 @@ def test_create_5_folders_positive():
     for i in range(5):
         folder_name = 'test_folder%s' % i
         resp = calls.create_folder(folder_name)
-        print(resp.json)
         assert resp.status_code == httplib.CREATED
         assert resp.json == no_json
         l.append(folder_name)

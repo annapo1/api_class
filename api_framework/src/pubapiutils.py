@@ -23,7 +23,7 @@ class Calls:
         self.config = Config()
 
     def create_folder(self, folder_name, path=None, domain=None, method=None, content_type=None, accept=None,
-                      username=None, password=None):
+                      username=None, password=None, print_call=True):
         if domain is None:
             domain = self.config.domain
         if method is None:
@@ -61,11 +61,21 @@ class Calls:
         except ValueError:
             json_resp = 'NoJSON'
 
+        if print_call:
+            header_string = ''
+            for key in headers:
+                header_string += '-H "%s: %s" ' % (key, headers[key])
+            #print('\n*TESTCASE: %s, API Call: Create Folder*' % inspect.stack()[1][3])
+            print('\nCurl is:\n curl %s "%s" -d \'%s\' -u%s:%s -X %s' % (header_string, url, data, username, password,
+                                                                       method))
+            print('HTTP Code: %s' % r.status_code)
+            print('\nJSON response is:\n %s' % json_resp)
+
         r.json = json_resp
         return r
 
     def delete_folder(self, folder_path, domain=None, method=None, content_type=None, accept=None,
-                      username=None, password=None):
+                      username=None, password=None, print_call=True):
         if domain is None:
             domain = self.config.domain
         if method is None:
@@ -96,6 +106,15 @@ class Calls:
             json_resp = json.loads(r.content)
         except ValueError:
             json_resp = 'NoJSON'
+
+        if print_call:
+            header_string = ''
+            for key in headers:
+                header_string += '-H "%s: %s" ' % (key, headers[key])
+            #print('\n*TESTCASE: %s, API Call: Create Folder*' % inspect.stack()[1][3])
+            print('\nCurl is:\n curl %s "%s" -u%s:%s -X %s' % (header_string, url, username, password, method))
+            print('HTTP Code: %s' % r.status_code)
+            print('\nJSON response is:\n %s' % json_resp)
 
         r.json = json_resp
         return r
