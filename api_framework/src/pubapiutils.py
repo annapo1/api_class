@@ -42,7 +42,7 @@ class Calls:
             path = self.config.testpath
 
         endpoint = '/public-api/v1/fs'
-        url = '%s%s%s%s' % (domain, endpoint, path, folder_name)
+        url = '%s%s%s/%s' % (domain, endpoint, path, folder_name)
         headers = dict()
         headers['Content-Type'] = content_type
         headers['Accept'] = accept
