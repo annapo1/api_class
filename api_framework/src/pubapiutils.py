@@ -2,6 +2,7 @@ import requests
 import json
 from ConfigParser import SafeConfigParser
 import os
+import inspect
 
 
 class Config:
@@ -65,7 +66,7 @@ class Calls:
             header_string = ''
             for key in headers:
                 header_string += '-H "%s: %s" ' % (key, headers[key])
-            #print('\n*TESTCASE: %s, API Call: Create Folder*' % inspect.stack()[1][3])
+            print('\n*TESTCASE: %s, API Call: Create Folder*' % inspect.stack()[1][3])
             print('\nCurl is:\n curl %s "%s" -d \'%s\' -u%s:%s -X %s' % (header_string, url, data, username, password,
                                                                        method))
             print('HTTP Code: %s' % r.status_code)
@@ -111,7 +112,7 @@ class Calls:
             header_string = ''
             for key in headers:
                 header_string += '-H "%s: %s" ' % (key, headers[key])
-            #print('\n*TESTCASE: %s, API Call: Create Folder*' % inspect.stack()[1][3])
+            print('\n*TESTCASE: %s, API Call: Delete Folder*' % inspect.stack()[1][3])
             print('\nCurl is:\n curl %s "%s" -u%s:%s -X %s' % (header_string, url, username, password, method))
             print('HTTP Code: %s' % r.status_code)
             print('\nJSON response is:\n %s' % json_resp)
