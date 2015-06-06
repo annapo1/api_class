@@ -3,6 +3,7 @@ import json
 from ConfigParser import SafeConfigParser
 import os
 import inspect
+from random import randint
 
 
 class Config:
@@ -119,3 +120,12 @@ class Calls:
 
         r.json = json_resp
         return r
+
+
+class Utils:
+    def __init__(self):
+        self.config = Config()
+
+    @staticmethod
+    def random_name():
+        return 'test_name%s' % randint(1000000, 9999999)
