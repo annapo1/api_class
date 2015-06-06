@@ -1,5 +1,7 @@
-import pubapiutils
+from pubapiutils import Calls
 import httplib
+
+calls = Calls()
 
 
 def test_create_5_folders_positive():
@@ -8,19 +10,21 @@ def test_create_5_folders_positive():
     l = []
     for i in range(5):
         folder_name = 'test_folder%s' % i
-        resp = pubapiutils.create_folder(folder_name)
+        resp = calls.create_folder(folder_name)
+        print(resp.json)
         assert resp.status_code == httplib.CREATED
         assert resp.json == no_json
         l.append(folder_name)
     for item in l:
-        resp = pubapiutils.delete_folder(folder_path=folder_path + item)
+        resp = calls.delete_folder(folder_path=folder_path + item)
         assert resp.status_code == httplib.OK
 
-
+"""
 def test_create_folders_positive():
     no_json = 'NoJSON'
     for i in range(3):
         folder_name = 'test_folder123gtg%s' % i
-        resp = pubapiutils.create_folder(folder_name)
+        resp = calls.create_folder(folder_name)
         assert resp.status_code == httplib.CREATED
         assert resp.json == no_json
+"""
