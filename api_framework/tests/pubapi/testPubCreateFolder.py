@@ -22,3 +22,10 @@ class TestClass:
         for item in l:
             resp = self.calls.delete_folder(folder_path=self.config.testpath + item)
             assert resp.status_code == httplib.OK
+
+    def test_create_folder_owner_perms(self):
+        folder_name = self.utils.random_name()
+        folder_path = '%s/%s' % (self.config.testpath, folder_name)
+        self.calls.create_folder(folder_name)
+        resp = self.calls.set_perms(folder_path=folder_path, users=self.config.puser, permission='Owner')
+        assert resp.status_code == httplib.OK
