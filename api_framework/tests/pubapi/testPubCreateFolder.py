@@ -1,7 +1,9 @@
 from pubapiutils import Calls
+from pubapiutils import Config
 import httplib
 
 calls = Calls()
+config = Config()
 
 
 def test_create_5_folders_positive():

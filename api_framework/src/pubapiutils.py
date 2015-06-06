@@ -11,7 +11,10 @@ class Config:
             self.parser.read('config.ini')
         else:
             print('No config.ini found under root folder.')
+        self.domain = self.parser.get('Server', 'url')
         self.admin_login = self.parser.get('Server', 'user')
+        self.password = self.parser.get('Server', 'passwd')
+        self.puser = self.parser.get('Server', 'puser')
 
 
 class Calls:
