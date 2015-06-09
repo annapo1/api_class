@@ -76,7 +76,7 @@ class Calls:
         r.json = json_resp
         return r
 
-    def delete_folder(self, folder_path, domain=None, method=None, content_type=None, accept=None,
+    def delete_folder(self, name, parent_path=None, domain=None, method=None, content_type=None, accept=None,
                       username=None, password=None, print_call=True):
         if domain is None:
             domain = self.config.domain
@@ -92,7 +92,11 @@ class Calls:
             password = self.config.password
 
         endpoint = '/public-api/v1/fs'
-        url = '%s%s%s' % (domain, endpoint, folder_path)
+
+        if parent_path is None:
+            parent_path = '/Shared/smoke_test'
+        url = domain + endpoint + parent_path + '/' + name
+
         headers = dict()
         headers['Content-Type'] = content_type
         headers['Accept'] = accept
