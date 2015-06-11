@@ -288,10 +288,12 @@ class Utils:
         l1 = resp.json
 
         for i in range(len(l1['folders'])):
-            if l1[i]['name'] in l:
-                l1[i] = None
+            if l1['folders'][i]['name'] in l:
+                l1['folders'][i] = None
 
-        while len(l1) or l1.count(None) == len(l1):
+        while l1['folders'].count(None) != len(l1['folders']):
             for elem in l1['folders']:
-                if elem['name'] is not None:
+                if elem is not None:
                     self.calls.delete_folder(parent_path='/Shared', name=elem['name'])
+                    index = l1['folders'].index(elem)
+                    del l1['folders'][index]

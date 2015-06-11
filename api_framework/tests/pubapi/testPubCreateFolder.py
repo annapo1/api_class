@@ -16,7 +16,7 @@ class TestClass(TestCase):
         cls.utils = Utils()
 
     def setUp(self):
-        pass
+        self.utils.delete_all_except(['Documents'])
 
     def test_create_5_folders_positive(self):
         l = []
