@@ -3,14 +3,20 @@ from pubapiutils import Config
 from pubapiutils import Utils
 import httplib
 import nose
+from unittest import TestCase
 
 
-class TestClass():
-    def __init__(self):
-        self.no_json = 'NoJSON'
-        self.calls = Calls()
-        self.config = Config()
-        self.utils = Utils()
+class TestClass(TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.no_json = 'NoJSON'
+        cls.calls = Calls()
+        cls.config = Config()
+        cls.utils = Utils()
+
+    def setUp(self):
+        pass
 
     def test_create_5_folders_positive(self):
         l = []

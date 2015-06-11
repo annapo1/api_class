@@ -94,7 +94,7 @@ class Calls:
         endpoint = '/public-api/v1/fs'
 
         if parent_path is None:
-            parent_path = '/Shared/smoke_test'
+            parent_path = self.config.testpath
         url = domain + endpoint + parent_path + '/' + name
 
         headers = dict()
