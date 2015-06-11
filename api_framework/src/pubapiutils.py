@@ -228,11 +228,70 @@ class Calls:
         r.json = json_resp
         return r
 
+    def list_folders(self, folder_path, domain=None, method=None, content_type=None, accept=None, username=None,
+                     password=None, print_call=True):
+        if domain is None:
+            domain = self.config.domain
+        if method is None:
+            method = 'GET'
+        if content_type is None:
+            content_type = 'application/json'
+        if accept is None:
+            accept = 'application/json'
+        if username is None:
+            username = self.config.admin_login
+        if password is None:
+            password = self.config.password
+
+        endpoint = '/public-api/v1/fs'
+        url = '%s%s%s' % (domain, endpoint, folder_path)
+        headers = dict()
+        headers['Content-Type'] = content_type
+        headers['Accept'] = accept
+
+        r = requests.request(
+            method=method,
+            url=url,
+            headers=headers,
+            auth=(username, password)
+        )
+
+        try:
+            json_resp = json.loads(r.content)
+        except ValueError:
+            json_resp = 'NoJSON'
+
+        if print_call:
+            header_string = ''
+            for key in headers:
+                header_string += '-H "%s: %s" ' % (key, headers[key])
+            print('\n*TESTCASE: %s, API Call: List Folders*' % inspect.stack()[1][3])
+            print('\nCurl is:\n curl %s "%s" -u%s:%s -X %s' % (header_string, url, username, password, method))
+            print('HTTP Code: %s' % r.status_code)
+            print('\nJSON response is:\n %s' % json_resp)
+
+        r.json = json_resp
+        return r
+
 
 class Utils:
     def __init__(self):
         self.config = Config()
+        self.calls = Calls()
 
     @staticmethod
     def random_name():
         return 'test_name%s' % randint(1000000, 9999999)
+
+    def delete_all_except(self, l):
+        resp = self.calls.list_folders(folder_path='/Shared')
+        l1 = resp.json
+
+        for i in range(len(l1['folders'])):
+            if l1[i]['name'] in l:
+                l1[i] = None
+
+        while len(l1) or l1.count(None) == len(l1):
+            for elem in l1['folders']:
+                if elem['name'] is not None:
+                    self.calls.delete_folder(parent_path='/Shared', name=elem['name'])
