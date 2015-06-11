@@ -31,3 +31,12 @@ class TestClass(TestCase):
         assert resp.json['folders'][0]['name'] == folder1
         resp = self.calls.list_folders(folder_path=folder1_path)
         assert resp.status_code == httplib.NOT_FOUND
+
+    def test_move_non_existent_folder(self):
+        folder1 = self.utils.random_name()
+        folder2 = self.utils.random_name()
+        folder1_path = '%s/%s' % (self.config.testpath, folder1)
+        self.calls.create_folder(folder1)
+        resp = self.calls.move_item(name=folder2, destination=folder1_path, parent_path=self.config.testpath)
+        assert resp.status_code == httplib.NOT_FOUND
+        assert resp.json['errorMessage'] == "Source path for move doesn't exist"
