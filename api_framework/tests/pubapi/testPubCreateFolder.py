@@ -2,15 +2,20 @@ from pubapiutils import Calls
 from pubapiutils import Config
 from pubapiutils import Utils
 import httplib
-import nose
+from unittest import TestCase
 
 
-class TestClass():
-    def __init__(self):
-        self.no_json = 'NoJSON'
-        self.calls = Calls()
-        self.config = Config()
-        self.utils = Utils()
+class TestClass(TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.no_json = 'NoJSON'
+        cls.calls = Calls()
+        cls.config = Config()
+        cls.utils = Utils()
+
+    def setUp(self):
+        self.utils.delete_all_except(['Documents'])
 
     def test_create_5_folders_positive(self):
         l = []
@@ -56,21 +61,3 @@ class TestClass():
             assert resp.status_code == httplib.FORBIDDEN
             assert resp.json['errorMessage'] == 'You do not have permission to perform this action'
             self.calls.delete_folder(folder1)
-
-    def test_test(self):
-        assert 1 == 2
-
-    def test_test1(self):
-        assert 1 == 1
-
-    def test_test2(self):
-        assert 1 == 1
-
-    def test_test3(self):
-        assert 1 == 1
-
-    def test_test4(self):
-        assert 1 == 1
-
-    def test_test5(self):
-        assert 1 == 1
